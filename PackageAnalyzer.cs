@@ -81,16 +81,23 @@ namespace NuGetPackageAnalyzer
 
 				if (x.Id == y.Id)
 				{
-					var xVersion = new Version(x.Version);
-					var yVersion = new Version(y.Version);
+					Version xVersion;
+					Version yVersion;
 
-					if (xVersion < yVersion)
+					if (Version.TryParse(x.Version, out xVersion) && Version.TryParse(y.Version, out yVersion))
 					{
-						returnValue = -1;
+						if (xVersion < yVersion)
+						{
+							returnValue = -1;
+						}
+						else
+						{
+							returnValue = 1;
+						}
 					}
 					else
 					{
-						returnValue = 1;
+						returnValue = String.Compare(x.Version, y.Version);
 					}
 				}
 				else
